@@ -1,9 +1,9 @@
 name: Build Pulu Firmware Builder
 
 on:
-  push:
-    tags:
-      - v1.*
+  release:
+    types:
+      - created
 
 jobs:
   compile_firmware_builder:
