@@ -33,12 +33,10 @@ ADD https://api.github.com/repos/vives-projectwerk-2021/pulu-main-firmware/git/r
 RUN git clone -b main https://github.com/vives-projectwerk-2021/pulu-main-firmware.git /tmp/pulu-repo/
 RUN rsync -av /tmp/pulu-repo/ /firmware-builder/ --exclude src/ --exclude .git/
 
-ARG TARGET="NUCLEO_L476RG"
-
 # Configure mbed
 RUN mbed config -G GCC_ARM_PATH "/usr/share/gcc-arm-none-eabi-9-2019-q4-major/bin/"
 RUN mbed config -G TOOLCHAIN "GCC_ARM"
-RUN mbed config -G TARGET $TARGET
+RUN mbed config -G TARGET "NUCLEO_L476RG"
 
 # Install mbed libraries
 RUN mkdir .git
