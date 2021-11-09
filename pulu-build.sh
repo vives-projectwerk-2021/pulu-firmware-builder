@@ -12,11 +12,6 @@ mbed-tools deploy
 echo "Compiling pulu (with cache)"
 cp -r /firmware/src/. /firmware-builder/src/
 
-if [ ! -f /firmware-builder/src/config.h ]; then
-    echo "Using default pulu config"
-    cp /firmware/src/config.example.h /firmware-builder/src/config.h
-fi
-
 mbed compile --artifact-name pulu-$VERSION
 
 echo "pulu-$VERSION compiled!"

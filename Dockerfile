@@ -1,4 +1,4 @@
-# Pulu Firmware Builder v1.0.0
+# Pulu Firmware Builder v1.3.0
 # Thomas Crombez 23/10/2021
 
 # Dependencies:
