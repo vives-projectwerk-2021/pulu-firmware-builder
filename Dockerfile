@@ -29,8 +29,10 @@ COPY requirements.txt ./
 RUN pip install -r requirements.txt
 
 # Clone latest pulu-firmware
-ADD https://api.github.com/repos/vives-projectwerk-2021/pulu-main-firmware/git/refs/heads/main /tmp/pulu-repo-version.json
-RUN git clone -b main https://github.com/vives-projectwerk-2021/pulu-main-firmware.git /tmp/pulu-repo/
+# ADD https://api.github.com/repos/vives-projectwerk-2021/pulu-main-firmware/git/refs/heads/main /tmp/pulu-repo-version.json
+# RUN git clone -b main https://github.com/vives-projectwerk-2021/pulu-main-firmware.git /tmp/pulu-repo/
+ADD https://api.github.com/repos/vives-projectwerk-2021/pulu-main-firmware/git/refs/heads/combine /tmp/pulu-repo-version.json
+RUN git clone -b combine https://github.com/vives-projectwerk-2021/pulu-main-firmware.git /tmp/pulu-repo/
 RUN rsync -av /tmp/pulu-repo/ /firmware-builder/ --exclude src/ --exclude .git/
 
 # Configure mbed
@@ -47,7 +49,16 @@ RUN mkdir src
 RUN echo "int main() { return 0; }" >> src/main.cpp
 
 # Compile mbed for caching
-RUN mbed compile
+RUN mkdir -p .cache/default .cache/nucleo .cache/nucleo_fake
+
+RUN mbed compile --app-config mbed_app.json
+RUN mv BUILD .cache/default
+
+RUN mbed compile --app-config mbed_app_nucleo.json
+RUN mv BUILD .cache/nucleo
+
+RUN mbed compile --app-config mbed_app_nucleo_fake.json
+RUN mv BUILD .cache/nucleo_fake
 
 # Copy pulu build script
 COPY pulu-build.sh .
@@ -55,5 +66,6 @@ RUN chmod +x pulu-build.sh
 
 ARG VERSION="latest"
 ENV BUILDER_VERSION=$VERSION
+ENV CONFIG=$CONFIG
 
 ENTRYPOINT [ "./pulu-build.sh" ]
