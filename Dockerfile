@@ -49,16 +49,16 @@ RUN mkdir src
 RUN echo "int main() { return 0; }" >> src/main.cpp
 
 # Compile mbed for caching
-RUN mkdir -p .cache/default .cache/nucleo .cache/nucleo_fake
+RUN mkdir -p /cache/default /cache/nucleo /cache/nucleo_fake
 
 RUN mbed compile --app-config mbed_app.json
-RUN mv BUILD .cache/default
+RUN mv BUILD /cache/default
 
 RUN mbed compile --app-config mbed_app_nucleo.json
-RUN mv BUILD .cache/nucleo
+RUN mv BUILD /cache/nucleo
 
 RUN mbed compile --app-config mbed_app_nucleo_fake.json
-RUN mv BUILD .cache/nucleo_fake
+RUN mv BUILD /cache/nucleo_fake
 
 # Copy pulu build script
 COPY pulu-build.sh .

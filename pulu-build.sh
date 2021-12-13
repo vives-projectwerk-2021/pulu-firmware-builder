@@ -12,7 +12,7 @@ case $CONFIG in
 		APP_CONFIG="mbed_app_nucleo_fake.json"
 		;;
 	*)
-        CONFIG="default"
+		CONFIG="default"
 		APP_CONFIG="mbed_app.json"
 		;;
 esac
@@ -27,7 +27,7 @@ mbed-tools deploy
 echo "Compiling pulu (with cache)"
 cp -r /firmware/src/. /firmware-builder/src/
 
-cp -r /firmware-builder/.cache/$CONFIG/. /firmware-builder
+mv /cache/$CONFIG/BUILD /firmware-builder/
 
 mbed compile --app-config $APP_CONFIG --artifact-name pulu-$VERSION-$CONFIG
 
